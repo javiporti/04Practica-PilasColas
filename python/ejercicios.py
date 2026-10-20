@@ -1,16 +1,41 @@
 from collections import deque
 
 
-def equilibrados(texto: str) -> bool:
-    # TODO
-    raise NotImplementedError
 
+def equilibrados(texto: str) -> bool:
+    parejas = {
+        ")" : "(",
+        "]" : "[",
+        "}" : "{"
+    }
+
+    pila = deque()
+    for c in texto:
+        if c in "([{":
+            pila.append(c)         #es igual que la cola empiece por la izq que por la drch
+        elif c in ")]}":
+            if not pila or pila.pop() != parejas[c]:
+                return False
+    return not pila
+
+# ([]) -> [ , (,      ]
 
 def procesar_turnos(ordenes: list[tuple[str, str]]) -> list[str]:
-    # TODO
-    raise NotImplementedError
+    cola = deque()
+    for tupla in ordenes:
+        for orden, persona in tupla:
+            if orden == "atiende":
+                cola.popleft()
+            elif orden == "siguiente":
+                cola.append(cola[0] if len(cola) != 0 else: "VACIA")
 
+            elif orden == "llega":
+                cola.append(persona)
+            else:
+                raise ValueError("orden desconocida")
 
+            #y si esta vacia??
+    return cola
 def probar_ejercicios() -> None:
     casos_parentesis = [
         ('', True),
